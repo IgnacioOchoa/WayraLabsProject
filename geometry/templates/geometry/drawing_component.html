@@ -1,13 +1,17 @@
 {% extends 'wlabs/base.html' %}
 
+{% load static %}
+
 {% block content %}
+
+<script src="{% static 'geometry/geometry.js'%}" defer></script> 
 
 <p> Bienvenido a la zona de edición de geometría </p>
 
 <div class="canvasContainer">
 <canvas id="canvasAerop">
 </canvas>
-  <button class="btn btn-default cnvBut" id="cnvBut1" type="button">Add point</button>
+  <button class="btn btn-default cnvBut" id="cnvBut1" type="button" onclick="buton1()">Add point</button>
   <button class="btn btn-default cnvBut" id="cnvBut2" type="button">Add line</button>
   <button class="btn btn-default cnvBut" id="cnvBut3" type="button">Add rectangle</button>
 </div>
