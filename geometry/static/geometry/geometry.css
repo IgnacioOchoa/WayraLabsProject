@@ -1,11 +1,11 @@
+
 #canvasAerop {
   border: 2px solid gray;
-  width: 100%; 
-  background-color: #e6f5ea;
+  display: block;
+  margin: auto;
 }
+
 .canvasContainer {
-  width: 800px;
-  height: 80vh;
   margin: auto;
   display: block;
   position: relative;
@@ -16,7 +16,7 @@
   border: 1px solid black;
   border-radius: 4px;
   padding: 5px;
-  left: 10px;
+  left: 330px;
 }
 
 #cnvBut1 {

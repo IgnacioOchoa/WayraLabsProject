@@ -5,11 +5,11 @@
 {% block content %}
 
 <script src="{% static 'geometry/geometry.js'%}" defer></script> 
-
+<link rel="stylesheet" type="text/css" href="{% static 'geometry/geometry.css' %}"/>
 <p> Bienvenido a la zona de edición de geometría </p>
 
-<div class="canvasContainer">
-<canvas id="canvasAerop">
+<div class="canvasContainer" onload="init()">
+<canvas id="canvasAerop" width="1200" height="700">
 </canvas>
   <button class="btn btn-default cnvBut" id="cnvBut1" type="button" onclick="buton1()">Add point</button>
   <button class="btn btn-default cnvBut" id="cnvBut2" type="button">Add line</button>
