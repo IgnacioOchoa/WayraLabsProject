@@ -10,6 +10,50 @@
 ## Descripción
 <!-- El Sistema de Gestión de Reclamos de arbolado público es una aplicación web que permite la gestión de los reclamos de la ciudadanía sobre el arbolado público. La aplicación cuenta con cuatro roles de usuario, cada uno con distintas funcionalidades:
 
+App flota
+
+CRUD para editar flota
+
+Lee una DB de Aeronaves
+
+App backbone
+
+CRUD para editar nodos y links
+
+Exportador para graficado
+
+App geometría
+
+Presenta información gráfica en pantalla (especializado en elementos 3D)
+
+App Configuración
+
+CRUD de configuración de la simulación
+
+App Simulación
+
+Contenedor que apunta objetos flota, backbone, configuración y resultados, con solver.
+
+App Resultados
+
+CRUD (sin interacción de user) en el cual se guardan los datos a partir de la ejecución de las simulaciones
+
+
+
+App tableros
+
+Presenta información gráfica en pantalla (especializado en gráficos, tablas, etc.)
+
+App Wayra Labs
+
+Presentar empresa, navegación, login, logout, etc.
+
+Página ppal de Proyectos
+
+
+
+
+
 -*Operador*
 
 - Carga de reclamos
