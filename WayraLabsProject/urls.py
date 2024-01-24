@@ -21,7 +21,7 @@ from wlabs import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('', include('geometry.urls')),
+    path('', include('airport.urls')),
     path('about/', views.about, name='about'),
     path('products/', views.products, name='products'),
     path('services/', views.services, name='services'),
