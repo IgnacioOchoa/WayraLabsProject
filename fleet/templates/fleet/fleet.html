@@ -1,0 +1,38 @@
+{% extends 'wlabs/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<script src="{% static 'fleet/fleet.js'%}" defer></script> 
+<link rel="stylesheet" type="text/css" href="{% static 'fleet/fleet.css' %}"/>
+<p> Bienvenido a la zona de edición de flota </p>
+<div>
+    <select id="cars" name="cars">
+        {% for fleet in fleet_list %}
+        <option value={{fleet.id}}>{{fleet.name}}</option>
+        {% endfor %}
+    </select>   
+</div>
+
+<br>
+<p> There are currently {{fleet_count}} fleets. </p>
+
+<table>
+    <tr>
+        <th>Aircraft</th>
+        <th>Approach Speed [kt]</th>
+        <th>MTOW [kg]</th>
+        <th>Quantity</th>
+    </tr>
+    {% for acft in fleet_aircrafts %}
+    <tr>
+        <th>{{acft.aircraft.name}}</th>
+        <th>{{acft.aircraft.app_speed}}</th>
+        <th>{{acft.aircraft.mtow}}</th>
+        <th>{{acft.quantity}}</th>
+    </tr>
+    {% endfor %}
+</table> 
+
+{% endblock content%}
