@@ -8,11 +8,16 @@
 <link rel="stylesheet" type="text/css" href="{% static 'fleet/fleet.css' %}"/>
 <p> Bienvenido a la zona de edición de flota </p>
 <div>
-    <select id="cars" name="cars">
+    <form action="/fleets/get_fleet" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+<!--     <select id="cars" name="cars">
         {% for fleet in fleet_list %}
         <option value={{fleet.id}}>{{fleet.name}}</option>
         {% endfor %}
-    </select>   
+    </select>    -->
 </div>
 
 <br>
