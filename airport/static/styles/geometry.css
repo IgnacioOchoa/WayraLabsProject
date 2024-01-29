@@ -1,3 +1,9 @@
+h2 {
+  text-align: center;
+  margin: auto;
+  background-color: #F9F9F9;
+  padding: 50px;
+}
 
 #canvasAerop {
   border: 2px solid gray;
@@ -19,12 +25,3 @@
   left: 330px;
 }
 
-#cnvBut1 {
-  top: 10px;
-} 
-#cnvBut2 {
-  top: 60px;
-}
-#cnvBut3 {
-  top: 110px;
-}

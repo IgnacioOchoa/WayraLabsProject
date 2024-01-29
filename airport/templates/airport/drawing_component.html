@@ -5,15 +5,12 @@
 {% block content %}
 
 <script src="{% static 'geometry/geometry.js'%}" defer></script> 
-<link rel="stylesheet" type="text/css" href="{% static 'geometry/geometry.css' %}"/>
-<p> Bienvenido a la zona de edición de geometría </p>
+<link rel="stylesheet" type="text/css" href="{% static '../static/styles/geometry.css' %}"/>
+<h2>Welcome to the airport edition section</h2>
 
 <div class="canvasContainer" onload="init()">
 <canvas id="canvasAerop" width="1200" height="700">
 </canvas>
-  <button class="btn btn-default cnvBut" id="cnvBut1" type="button" onclick="buton1()">Add point</button>
-  <button class="btn btn-default cnvBut" id="cnvBut2" type="button">Add line</button>
-  <button class="btn btn-default cnvBut" id="cnvBut3" type="button">Add rectangle</button>
 </div>
 
 {% endblock content%}
