@@ -4,40 +4,36 @@
 
 {% block content %}
 
-<script src="{% static 'fleet/fleet.js'%}" defer></script> 
-<link rel="stylesheet" type="text/css" href="{% static 'fleet/fleet.css' %}"/>
-<p> Bienvenido a la zona de edición de flota </p>
+<script src="{% static 'fleet.js'%}" defer></script> 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/fleet.css' %}"/>
+<h3>Welcome to the fleet edition section</h3>
 <div>
-    <form action="/fleets/get_fleet" method="post">
+    <form action="/fleets/" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit">
     </form>
-<!--     <select id="cars" name="cars">
-        {% for fleet in fleet_list %}
-        <option value={{fleet.id}}>{{fleet.name}}</option>
-        {% endfor %}
-    </select>    -->
 </div>
 
 <br>
-<p> There are currently {{fleet_count}} fleets. </p>
 
-<table>
+<table id="aircrafts">
     <tr>
         <th>Aircraft</th>
         <th>Approach Speed [kt]</th>
         <th>MTOW [kg]</th>
         <th>Quantity</th>
+        <th>Commands</th>
     </tr>
     {% for acft in fleet_aircrafts %}
     <tr>
-        <th>{{acft.aircraft.name}}</th>
-        <th>{{acft.aircraft.app_speed}}</th>
-        <th>{{acft.aircraft.mtow}}</th>
-        <th>{{acft.quantity}}</th>
+        <td>{{acft.aircraft.name}}</th>
+        <td>{{acft.aircraft.app_speed}}</th>
+        <td>{{acft.aircraft.mtow}}</th>
+        <td>{{acft.quantity}}</th>
+        <td>'commands'</td>
     </tr>
     {% endfor %}
 </table> 
 
-{% endblock content%}
+{% endblock %}

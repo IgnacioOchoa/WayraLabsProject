@@ -1,0 +1,29 @@
+h3 {
+  text-align: center;
+  margin: auto;
+  background-color: #F9F9F9;
+  padding: 25px;
+}
+
+#aircrafts {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#aircrafts td, #aircrafts th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#aircrafts tr:nth-child(even){background-color: #f2f2f2;}
+
+#aircrafts tr:hover {background-color: #ddd;}
+
+#aircrafts th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #007bff;
+  color: white;
+}
