@@ -3,7 +3,7 @@ from django.db import models
 class Aircraft(models.Model):
     name = models.CharField(max_length = 25)
     icao_id = models.CharField(max_length = 5)
-    app_speed = models.IntegerField()
+    landing_speed = models.IntegerField()
     mtow = models.IntegerField()
 
     def __str__(self):

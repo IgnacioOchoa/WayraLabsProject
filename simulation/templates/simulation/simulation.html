@@ -1,0 +1,46 @@
+{% extends 'wlabs/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<script src="{% static 'simulation.js'%}" defer></script> 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/simulation.css' %}"/>
+<h3>Welcome to the simulation section</h3>
+
+<main class="container mt-5">
+    <section class="card card-body d-flex flex-row justify-content-around">
+        <table>
+            <tr>
+                <th>FLEETS</th>
+            </tr>
+            {% for fleet in fleets %}
+            <tr>
+                <td>{{fleet.name}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table>
+            <tr>
+                <th>NODES</th>
+            </tr>
+            {% for node in nodes %}
+            <tr>
+                <td>{{node.id}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <table>
+            <tr>
+                <th>LINKS</th>
+            </tr>
+            {% for link in links %}
+            <tr>
+                <td>{{link.id}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>    
+</main>
+
+{% endblock %}

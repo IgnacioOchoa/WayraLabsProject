@@ -11,7 +11,7 @@
     <form action="/fleets/" method="post">
         {% csrf_token %}
         {{ form }}
-        <input type="submit" value="Submit">
+        <input type="submit" class="btn btn-primary" value="Submit">
     </form>
 </div>
 
@@ -19,8 +19,12 @@
 
 <table id="aircrafts">
     <tr>
+        <th colspan="6">Selected Fleet: {{selection}}</th>
+    </tr>
+    <tr>
         <th>Aircraft</th>
-        <th>Approach Speed [kt]</th>
+        <th>ICAO Type Designator</th>
+        <th>Landing Speed [kt]</th>
         <th>MTOW [kg]</th>
         <th>Quantity</th>
         <th>Commands</th>
@@ -28,7 +32,8 @@
     {% for acft in fleet_aircrafts %}
     <tr>
         <td>{{acft.aircraft.name}}</th>
-        <td>{{acft.aircraft.app_speed}}</th>
+        <td>{{acft.aircraft.icao_id}}</td>
+        <td>{{acft.aircraft.landing_speed}}</th>
         <td>{{acft.aircraft.mtow}}</th>
         <td>{{acft.quantity}}</th>
         <td>'commands'</td>
