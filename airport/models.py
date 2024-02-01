@@ -20,7 +20,7 @@ class Node(models.Model):
     )
 
     def __str__(self):
-        return "Node " + str(self.id)
+        return "{} {}".format(self.get_type_display(),self.runway_designator)
 
 class Link(models.Model):
     class Type(models.TextChoices):
@@ -37,4 +37,7 @@ class Link(models.Model):
     )
 
     def __str__(self):
-        return "Link {} (N{}-N{}) {}".format(self.id,self.node1.id,self.node2.id,self.get_type_display())
+        if self.node2.runway_designator < self.node1.runway_designator:
+            return "{} {}-{}".format(self.get_type_display(),self.node2.runway_designator,self.node1.runway_designator)
+        else:
+            return "{} {}-{}".format(self.get_type_display(),self.node1.runway_designator,self.node2.runway_designator)

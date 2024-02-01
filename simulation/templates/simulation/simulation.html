@@ -8,38 +8,54 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles/simulation.css' %}"/>
 <h3>Welcome to the simulation section</h3>
 
-<main class="container mt-5">
+<main class="container">
     <section class="card card-body d-flex flex-row justify-content-around">
-        <table>
-            <tr>
-                <th>FLEETS</th>
-            </tr>
-            {% for fleet in fleets %}
-            <tr>
-                <td>{{fleet.name}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <table>
-            <tr>
-                <th>NODES</th>
-            </tr>
-            {% for node in nodes %}
-            <tr>
-                <td>{{node.id}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <table>
-            <tr>
-                <th>LINKS</th>
-            </tr>
-            {% for link in links %}
-            <tr>
-                <td>{{link.id}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+
+        <div class="container">
+            <p>This simplified simulation model considers landig speed at threshold, then UALM from landing speed
+                to taxiing speed (20kt), and then uniform speed to exit. UALM is calculated using landing distance
+                for each aircraft.</p>
+        </div>
+
+        <div class="container">
+            <form action="/simulation/" method="post">
+                {% csrf_token %}
+                <table class="table table-borderless">
+                    <tr>
+                        <td>{{ config_form.fleet_selector.label_tag }}</td>
+                        <td>{{ config_form.fleet_selector }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ config_form.runway_selector.label_tag }}</td>
+                        <td>{{ config_form.runway_selector }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ config_form.threshold_selector.label_tag }}</td>
+                        <td>{{ config_form.threshold_selector }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" class="w-100 btn btn-primary" value="Simulate"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <div class="container">
+            <table class="table table-borderless">
+                <tr>
+                    <th colspan="2">RESULTS</th>
+                </tr>
+                <tr>
+                    <td>Average ROT:</td>
+                    <td>{{ average_rot }}</td>
+                </tr>
+                <tr>
+                    <td>Arrivals/hr:</td>
+                    <td>{{ arrivals_per_hour }}</td>
+                </tr>
+            </table>
+        </div>
+
     </section>    
 </main>
 

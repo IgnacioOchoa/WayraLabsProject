@@ -19,12 +19,13 @@
 
 <table id="aircrafts">
     <tr>
-        <th colspan="6">Selected Fleet: {{selection}}</th>
+        <th colspan="7">Selected Fleet: {{selection}}</th>
     </tr>
     <tr>
         <th>Aircraft</th>
         <th>ICAO Type Designator</th>
         <th>Landing Speed [kt]</th>
+        <th>Landing Distance [m]</th>
         <th>MTOW [kg]</th>
         <th>Quantity</th>
         <th>Commands</th>
@@ -34,6 +35,7 @@
         <td>{{acft.aircraft.name}}</th>
         <td>{{acft.aircraft.icao_id}}</td>
         <td>{{acft.aircraft.landing_speed}}</th>
+        <td>{{acft.aircraft.landing_distance}}</th>
         <td>{{acft.aircraft.mtow}}</th>
         <td>{{acft.quantity}}</th>
         <td>'commands'</td>
