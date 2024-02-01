@@ -56,7 +56,34 @@
             </table>
         </div>
 
-    </section>    
+    </section>
+
+    <section class="card mt-4 card-body d-flex flex-col align-items-center">
+        <p class="fw-bold">DETAILED RESULTS</p>
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>AIRCRAFT</th>
+                    <th>LANDING SPEED [kt]</th>
+                    <th>BREAKING TIME [s]</th>
+                    <th>TAXIING TIME [s]</th>
+                    <th>ROT [s]</th>
+                    <th>QUANTITY</th>
+                </tr>
+                {% for result in general_results %}
+                <tr>
+                    <td>{{ result.acft }}</td>
+                    <td>{{ result.landing_speed }}</td>
+                    <td>{{ result.breaking_time }}</td>
+                    <td>{{ result.taxiing_time }}</td>
+                    <td>{{ result.rot }}</td>
+                    <td>{{ result.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+
 </main>
 
 {% endblock %}
