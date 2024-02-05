@@ -5,6 +5,17 @@ h3 {
   padding: 25px;
 }
 
+th, td {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#qty {
+  flex-grow: 0;
+  flex-basis: 50px;
+}
+
 #aircrafts {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
