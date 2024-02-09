@@ -1,0 +1,74 @@
+{% extends 'wlabs/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/fleet.css' %}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<main class="container">
+    <section class="card mt-4 card-body">
+        <div class="mb-4">
+            <label for="">Fleet Name:</label>
+            <input type="text" value={{fleet.name}}>
+            <a href="/emp" class="btn btn-primary">Save Fleet</a>
+            <a href="{% url 'fleets' %}" class="btn btn-primary">Return</a>
+        </div>
+        <table id="aircrafts" class="table table-striped table-bordered table-sm">
+            <tr>
+                <th>Aircraft</th>
+                <th>ICAO Type Designator</th>
+                <th>Landing Speed [kt]</th>
+                <th>Landing Distance [m]</th>
+                <th>MTOW [kg]</th>
+                <th class="text-center">Quantity</th>
+                <th>Actions</th>
+            </tr>
+            {% for acft in fleet_aircrafts %}
+            <tr>
+                <td>{{acft.aircraft.name}}</td>
+                <td>{{acft.aircraft.icao_id}}</td>
+                <td>{{acft.aircraft.landing_speed}}</td>
+                <td>{{acft.aircraft.landing_distance}}</td>
+                <td>{{acft.aircraft.mtow}}</td>
+                <td>{{acft.quantity}}</td> 
+                <td>
+                    <a href="/update/update/{{acft.id}}" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil-square-o"></i></a>
+                    <a href="/update/delete/{{acft.id}}/" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="text-center">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add New Fleet
+            </button>
+        </div>  
+    </section> 
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Add Aircraft to Fleet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                Here goes the New Aircraft Form
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Add Aircraft</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+
+</main>
+
+{% endblock %}
