@@ -5,48 +5,74 @@ from django.http import HttpResponseRedirect
 from .models import Fleet
 from .models import AircraftQuantity
 from .forms import FleetSelectorForm
+from .forms import FleetForm
 
-# show view to display empty fleet page
+# view to display fleet page -- FUNCTIONAL
 def show(request):
     #fleet list and form for context
     fleets = Fleet.objects.all()
-
+    form = FleetForm()
     context={
         'fleets': fleets,
+        'form': form
     }
     return render(request, 'fleet/fleet.html', context)
 
+#View to create fleet
+def create_fleet(request):  
+    if request.method == "POST":  
+        print('request is POST')
+        form = FleetForm(request.POST)
+        if form.is_valid():
+            print('form is valid')
+            try:  
+                form.save()
+                print('reloading fleet')
+                return HttpResponseRedirect(reverse('fleets'))  
+            except:  
+                pass
+    else:  
+        form = FleetForm()  
+    return HttpResponseRedirect(reverse('fleets'))  
+
 #View to update fleet
-def update(request, id):  
+def update_fleet(request, id):  
     fleet = Fleet.objects.get(id=id)
     fleet_aircrafts = AircraftQuantity.objects.filter(fleet = fleet).all()
     context={
         'fleet_aircrafts': fleet_aircrafts,
         'fleet': fleet,
     }
-
     return render(request, 'fleet/update.html', context)
+
+# View to delete fleet -- FUNCTIONAL
+def destroy_fleet(request, id):  
+    fleet = Fleet.objects.get(id=id)  
+    fleet.delete()  
+    return HttpResponseRedirect(reverse('fleets'))
+
+def details_acft(request, fleet_acft_id):
+    fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id)   
+    return render(request, 'fleet/acft_details.html', {'element': fleet_aircraft})
 
 #View to update fleet aircraft
 def update_acft(request, fleet_acft_id):  
     fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id) 
     return render(request, 'fleet/update.html')    
 
-# View to delete fleet
-def destroy_fleet(request, id):  
-    fleet = Fleet.objects.get(id=id)  
-    # fleet.delete()  
-    return render(request, 'fleet/delete.html', {'element': fleet})
-
-# View to delete fleet
+# View to delete aircraft -- FUNCTIONAL
 def destroy_acft(request, fleet_acft_id):
     fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id)   
-     # fleet_aircraft.delete() 
-    return render(request, 'fleet/delete.html', {'element': fleet_aircraft})
+    fleet = fleet_aircraft.fleet
+    fleet_aircraft.delete()
+    fleet_aircrafts = AircraftQuantity.objects.filter(fleet = fleet).all()
+    context={
+        'fleet_aircrafts': fleet_aircrafts,
+        'fleet': fleet,
+    }
+    return render(request, 'fleet/update.html', context)
 
-# View to create new fleet
-def new_fleet(request):  
-    return render(request, 'fleet/newfleet.html')
+
 
 
 
