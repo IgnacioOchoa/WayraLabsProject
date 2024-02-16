@@ -4,44 +4,58 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from .models import Fleet
 from .models import AircraftQuantity
-from .forms import FleetSelectorForm
-from .forms import FleetForm
+from .forms import FleetForm, AcftForm, AcftEditForm
 
-# view to display fleet page -- FUNCTIONAL
+# View to display fleet page -- FUNCTIONAL
 def show(request):
-    #fleet list and form for context
+    #fleet list and forms for context
     fleets = Fleet.objects.all()
-    form = FleetForm()
+    fleet_form = FleetForm()
     context={
         'fleets': fleets,
-        'form': form
+        'fleet_form': fleet_form
     }
     return render(request, 'fleet/fleet.html', context)
 
-#View to create fleet
+#View to create fleet -- FUNCTIONAL
 def create_fleet(request):  
     if request.method == "POST":  
-        print('request is POST')
         form = FleetForm(request.POST)
         if form.is_valid():
-            print('form is valid')
             try:  
                 form.save()
-                print('reloading fleet')
                 return HttpResponseRedirect(reverse('fleets'))  
             except:  
                 pass
     else:  
         form = FleetForm()  
-    return HttpResponseRedirect(reverse('fleets'))  
+    return HttpResponseRedirect(reverse('fleets'))
 
-#View to update fleet
+#View to update fleet name -- FUNCTIONAL
+def update_name(request, id): 
+    fleet = Fleet.objects.get(id=id)
+    if request.method == "POST":
+        form = FleetForm(request.POST, instance=fleet)
+        if form.is_valid():
+            try:  
+                form.save()
+                return update_fleet(request, id)
+            except:  
+                pass
+
+#View to update fleet -- FUNCTIONAL
 def update_fleet(request, id):  
     fleet = Fleet.objects.get(id=id)
     fleet_aircrafts = AircraftQuantity.objects.filter(fleet = fleet).all()
+    fleet_form = FleetForm()
+    acft_form = AcftForm()
+    acft_edit_form = AcftEditForm()
     context={
         'fleet_aircrafts': fleet_aircrafts,
         'fleet': fleet,
+        'fleet_form': fleet_form,
+        'acft_form': acft_form,
+        'acft_edit_form': acft_edit_form
     }
     return render(request, 'fleet/update.html', context)
 
@@ -51,71 +65,49 @@ def destroy_fleet(request, id):
     fleet.delete()  
     return HttpResponseRedirect(reverse('fleets'))
 
-def details_acft(request, fleet_acft_id):
-    fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id)   
-    return render(request, 'fleet/acft_details.html', {'element': fleet_aircraft})
+# View to create acft -- FUNCTIONAL
+def create_acft(request, id):
+    fleet = Fleet.objects.get(id=id) 
+    if request.method == "POST":
+        form = AcftForm(request.POST)
+        if form.is_valid():
+            form.instance.fleet = fleet
+            try:  
+                form.save()
+                return update_fleet(request, id)
+            except:
+                pass
 
-#View to update fleet aircraft
+#View to update fleet aircraft -- NOT FUNCTIONAL ¿HACER FORM ESPECÍFICO?
 def update_acft(request, fleet_acft_id):  
-    fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id) 
-    return render(request, 'fleet/update.html')    
+    fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id)
+    fleet = fleet_aircraft.fleet
+    acft = fleet_aircraft.aircraft
+    id = fleet.id
+    if request.method == "POST":
+        form = AcftEditForm(request.POST, instance=fleet_aircraft)
+        if form.is_valid():
+            form.instance.fleet = fleet
+            form.instance.aircraft = acft
+            try:  
+                form.save()
+                return update_fleet(request, id)
+            except:
+                pass
 
 # View to delete aircraft -- FUNCTIONAL
 def destroy_acft(request, fleet_acft_id):
     fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id)   
     fleet = fleet_aircraft.fleet
+    id = fleet.id
     fleet_aircraft.delete()
-    fleet_aircrafts = AircraftQuantity.objects.filter(fleet = fleet).all()
-    context={
-        'fleet_aircrafts': fleet_aircrafts,
-        'fleet': fleet,
-    }
-    return render(request, 'fleet/update.html', context)
+    return update_fleet(request, id)
 
+# View to see acft card -- NOT FUNCTIONAL
+def acft_details(request, fleet_acft_id):
+    fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id)   
+    return render(request, 'fleet/acft_details.html', {'element': fleet_aircraft})
 
-
-
-
-    """ #If request method is "POST"
-    if request.method == "POST":
-        # create a form instance and populate it with data from the request:
-        form = FleetSelectorForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            if 'fleet_selector' == '':
-                selected = None
-            else:
-                selected = form.cleaned_data['fleet_selector']
-
-            fleet_aircrafts = AircraftQuantity.objects.filter(fleet = selected).all()
-            form.initial = {'fleet_selector': selected.pk}
-            context={
-                'fleets': fleets,
-                'form': form,
-                'selection': selected,
-                'fleet_aircrafts': fleet_aircrafts
-            }
-            return render(request, 'fleet/fleet.html', context)
-        
-        #If form is not valid, default rendering is given
-        else:
-            context={
-                'fleets': fleets,
-                'form': FleetSelectorForm(),
-                'selected': None,
-                'fleet_aircrafts': None,
-            }
-            return render(request, 'fleet/fleet.html', context)
-    #If request method is other than "POST" (ie: "GET")
-
-    
-#View for update
-def update(request):
-
-    return HttpResponseRedirect(reverse('fleet_update'))
-
-#View to delete
-def destroy(request,):
-    
-    return HttpResponseRedirect(reverse('fleet_delete')) """
+""" RESTA IMPLEMENTAR:
+        -- PIECHART FLEET
+        -- PIECHART ACFT"""   
