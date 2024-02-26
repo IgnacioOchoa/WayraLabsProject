@@ -3,8 +3,8 @@ var ctx = canvas.getContext('2d');
 var drawLine;
 var lineStarted = false;
 var rect = canvas.getBoundingClientRect();
-var visibleX = 2000;
-var visibleY = 1000;
+//var visibleX = 2000;
+//var visibleY = 1000;
 
 var points = [];
 var lines = [];
@@ -33,6 +33,8 @@ for (link of dataLinks) {
   addLink(link);
 }
 
+let [visibleX, visibleY] = calculateBoundingRect();
+
 function addNode(node) {
   nodes.push(new Node(node[0],node[1]));
 }
@@ -41,6 +43,23 @@ function addLink(link) {
   links.push(new Link(link[0], link[1], link[2], link[3]));
 }
 
+function calculateBoundingRect(){
+  let xMin = Infinity;
+  let xMax = -Infinity;
+  let yMin = Infinity;
+  let yMax = -Infinity;
+  for(let n of nodes) {
+    if (n.x < xMin) xMin = n.x;
+    else if (n.x > xMax) xMax = n.x;
+    if (n.y < yMin) yMin = n.y;
+    else if (n.y > yMax) yMax = n.y;
+  }
+  let visibleX = 2*Math.max(Math.abs(xMin), Math.abs(xMax))*1.1;
+  let visibleY = 2*Math.max(Math.abs(yMin), Math.abs(yMax))*1.1;
+  return [visibleX, visibleY];
+}
+
+ 
 function Line(xRoot, yRoot) {
   this.x1 = xRoot;
   this.x2 = xRoot;
