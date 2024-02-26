@@ -9,7 +9,7 @@ def geometryEdit(request):
     for n in Node.objects.all():
         nodeList.append([n.x,n.y])
     for l in Link.objects.all():
-        lineList.append([l.node1.x, l.node1.y, l.node2.x, l.node2.y])
+        lineList.append([l.node1.x, l.node1.y, l.node2.x, l.node2.y, l.width])
     context = { 'nodeList' : nodeList,
                 'lineList' : lineList}
     return render(request, 'airport/drawing_component.html', context)

@@ -29,6 +29,7 @@ class Link(models.Model):
         APR = "3", "APRON"
     node1 = models.ForeignKey(Node, on_delete=models.DO_NOTHING, related_name='link_node1')
     node2 = models.ForeignKey(Node, on_delete=models.DO_NOTHING, related_name='link_node2')
+    width = models.DecimalField(max_digits=3, decimal_places=1)
     description = models.TextField()
     type = models.CharField(
         max_length=2,

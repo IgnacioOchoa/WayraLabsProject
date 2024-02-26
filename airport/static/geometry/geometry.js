@@ -12,10 +12,10 @@ var nodes = [];
 var links = [];
 var currentLine;
 var baseLineColor = '#225887';
-let nodeColor = "#157522";
+let nodeColor = "#444647";
 let lineHighlihtColor = "rgb(252,61,3)";
 let backgroundFill = '#e6f5ea';
-let linkColor = '#7750bf';
+let linkColor = '#999c9e';
 
 dataElement1 = document.currentScript.nextElementSibling;
 dataElement2 = dataElement1.nextElementSibling;
@@ -40,7 +40,7 @@ function addNode(node) {
 }
 
 function addLink(link) {
-  links.push(new Link(link[0], link[1], link[2], link[3]));
+  links.push(new Link(link[0], link[1], link[2], link[3], link[4]));
 }
 
 function calculateBoundingRect(){
@@ -74,11 +74,12 @@ function Node(x,y) {
   this.color = nodeColor;
 }
 
-function Link(x1,y1,x2,y2) {
+function Link(x1,y1,x2,y2,width) {
   this.x1 = x1;
   this.y1 = y1;
   this.x2 = x2;
   this.y2 = y2;
+  this.width = width;
   this.color = linkColor; 
 }
 
@@ -93,7 +94,7 @@ Node.prototype.draw = function() {
   ctx.stroke();
 }
 
-Link.prototype.draw = function() {
+Link.prototype.draw = function(mode) {
   let posX1 = this.x1/(visibleX) * canvas.width + canvas.width/2;
   let posY1 = this.y1/(visibleY) * canvas.height + canvas.height/2;
   let posX2 = this.x2/(visibleX) * canvas.width + canvas.width/2;
@@ -101,8 +102,14 @@ Link.prototype.draw = function() {
   ctx.beginPath();
   ctx.moveTo(posX1,posY1);
   ctx.lineTo(posX2,posY2);
-  ctx.strokeStyle = this.color;
-  ctx.lineWidth = 5;
+  if(mode == 'shape') {
+  	ctx.strokeStyle = this.color; //ctx.lineWidth = 5;
+  	ctx.lineWidth = this.width;
+  }
+  else if (mode == 'line') {
+  	ctx.strokeStyle = "#FFFFFF";
+  	ctx.lineWidth = 2;
+  }
   ctx.stroke();
 }
 
@@ -190,9 +197,10 @@ function loop() {
   window.requestAnimationFrame(loop);
   ctx.fillStyle = backgroundFill;
   ctx.fillRect(0,0,canvas.width, canvas.height);
+  links.map(function(link){link.draw('shape');});
   lines.map(function(line){line.draw();});
+  links.map(function(link){link.draw('line');});
   nodes.map(function(node){node.draw();});
-  links.map(function(node){node.draw();});
   if(lineStarted) {
     currentLine.draw();
   }

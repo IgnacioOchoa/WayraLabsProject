@@ -7,7 +7,7 @@ class NodeAdmin(admin.ModelAdmin):
     list_display=("__str__", "x", "y", "type")
 
 class LinkAdmin(admin.ModelAdmin):
-    list_display=("__str__", "description")
+    list_display=("__str__", "width", "description")
 
 admin.site.register(Node, NodeAdmin)
 admin.site.register(Link, LinkAdmin)
