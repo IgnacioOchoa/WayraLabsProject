@@ -25,3 +25,8 @@ h3 {
   left: 330px;
 }
 
+#airport-buttons {
+  display: flex;
+  justify-content: space-around;
+  background-color: red;
+}

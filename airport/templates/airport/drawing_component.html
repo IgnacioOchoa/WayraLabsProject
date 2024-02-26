@@ -5,8 +5,9 @@
 {% block content %}
 
 <script src="{% static 'geometry/geometry.js'%}" defer></script> 
-{{nodeList | json_script}}
+{{pointList | json_script}}
 {{lineList | json_script}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/geometry.css' %}"/>
 <h3>Welcome to the airport edition section</h3>
 
@@ -14,5 +15,66 @@
 <canvas id="canvasAerop" width="1200" height="700">
 </canvas>
 </div>
+<div class="text-center">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#">
+Add New Link
+</button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#p">
+Add New Node
+</button>
+</div>
+<section class="card mt-4 card-body">
+        <table id="Links" class="table table-striped table-bordered table-sm">  
+            <thead class="thead-dark">  
+                <tr>  
+                    <th>Link Name </th>  
+                    <th>Link Description</th>
+                    <th>Actions</th>    
+                </tr>  
+            </thead>  
+            <tbody>  
+                {% for link  in linkList %}  
+                <tr>  
+                    <td>{{ link }}</td>  
+		    <td>{{ link.description }}</td>  
+                    <td>  
+                        <a href="" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                    </td>  
+                </tr>  
+                {% endfor %}  
+            </tbody>  
+        </table>  
+        </div>  
+    </section>
+<section class="card mt-4 card-body">
+        <table id="Nodes" class="table table-striped table-bordered table-sm">  
+            <thead class="thead-dark">  
+                <tr>  
+                    <th>Node Name </th>  
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>Actions</th>    
+                </tr>  
+            </thead>  
+            <tbody>  
+                {% for node in nodeList %}  
+                <tr>  
+                    <td>{{ node }}</td>  
+		    <td>{{ node.x }}</td>  
+		    <td>{{ node.y }}</td>  
+                    <td>  
+                        <a href="" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil-square-o"></i></a>
+                        <a href="" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                    </td>  
+                </tr>  
+                {% endfor %}  
+            </tbody>  
+        </table>  
+        </div>  
+    </section>
+
+
+
 
 {% endblock content%}
