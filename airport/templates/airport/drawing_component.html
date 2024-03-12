@@ -23,6 +23,7 @@ Add New Link
 Add New Node
 </button>
 </div>
+<main class="container">
 <section class="card mt-4 card-body">
         <table id="Links" class="table table-striped table-bordered table-sm">  
             <thead class="thead-dark">  
@@ -76,7 +77,6 @@ Add New Node
 
     <!-- Modal to change nodes -->
     {% for node in nodeList %}
-    <p>{{node.id}}</p>
     <form method="POST" action="/aiport/update_node{{node.id}}">
         {% csrf_token %}
 	<div class="modal fade" id="modalNode{{node.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNodeLabel" aria-hidden="true">
@@ -112,7 +112,7 @@ Add New Node
         </div>
     </form>
     {% endfor %}
-
+</main>
 
 
 {% endblock content%}
