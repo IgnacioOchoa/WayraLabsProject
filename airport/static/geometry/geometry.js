@@ -1,7 +1,6 @@
 var canvas = document.getElementById("canvasAerop");
 var ctx = canvas.getContext('2d');
 var drawLine;
-var lineStarted = false;
 var rect = canvas.getBoundingClientRect();
 //var visibleX = 2000;
 //var visibleY = 1000;
@@ -130,25 +129,6 @@ Line.prototype.draw = function() {
 
 function mouseClick(event) {
     console.log("mouseClick function"); 
-    canvas.style.cursor = "default";
-    ctx.beginPath();
-    var rect = canvas.getBoundingClientRect();
-    var x = event.clientX - rect.left;
-    var y = event.clientY - rect.top;
-    ctx.moveTo(x,y);
-    ctx.arc(x,y,4,0,Math.PI*2);
-    ctx.strokeStyle = 'rgb(66,135,245)';
-    ctx.lineWidth = 5;
-    ctx.stroke();
-    if (!lineStarted) {
-      lineStarted  = true;
-      currentLine = new Line(x,y);
-      console.log("Line started")
-    }
-    else {
-      lineStarted = false;
-      lines.push(currentLine);
-    }
 }
 
 function mouseCollisionWithLine(mouseX, mouseY, line) {
@@ -174,24 +154,13 @@ canvas.addEventListener("mousedown", mouseClick);
 canvas.addEventListener("mousemove", (event) => {
   var x = event.clientX - rect.left;
   var y = event.clientY - rect.top;
-  if(lineStarted) {
-    currentLine.updateTip(x,y);
-    console.log("Line moved");
-  }
-  else {
-    for (let i=0; i<lines.length; i++) {
-      if(mouseCollisionWithLine(x,y,lines[i])) {
-	lines[i].color = lineHighlihtColor;
-      }
-      else { lines[i].color = baseLineColor;}
-    }
-  }
+  //if(mouseCollisionWithLine(x,y,lines[i])) {
+  //lines[i].color = lineHighlihtColor;
+  // }
+  // else { lines[i].color = baseLineColor;}
+  // }
+  //}
 });
-
-function buton1() {
-  canvas.style.cursor = "crosshair"; 
-
-}
 
 function loop() {
   window.requestAnimationFrame(loop);
@@ -201,9 +170,6 @@ function loop() {
   lines.map(function(line){line.draw();});
   links.map(function(link){link.draw('line');});
   nodes.map(function(node){node.draw();});
-  if(lineStarted) {
-    currentLine.draw();
-  }
 }
 
 loop();
