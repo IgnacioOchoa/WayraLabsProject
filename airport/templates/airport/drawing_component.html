@@ -38,8 +38,8 @@ Add New Node
                     <td>{{ link }}</td>  
 		    <td>{{ link.description }}</td>  
                     <td>  
-                        <a href="" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil-square-o"></i></a>
-                        <a href="" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                        <a type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil-square-o"></i></a>
+                        <a type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                     </td>  
                 </tr>  
                 {% endfor %}  
@@ -64,8 +64,8 @@ Add New Node
 		    <td>{{ node.x }}</td>  
 		    <td>{{ node.y }}</td>  
                     <td>  
-                        <a href="" type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil-square-o"></i></a>
-                        <a href="" type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+		      <a type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-placement="top" title="Edit Node" data-bs-target="#modalNode{{node.id}}"><i class="fa fa-pencil-square-o"></i></a>
+                        <a type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                     </td>  
                 </tr>  
                 {% endfor %}  
@@ -74,6 +74,44 @@ Add New Node
         </div>  
     </section>
 
+    <!-- Modal to change nodes -->
+    {% for node in nodeList %}
+    <p>{{node.id}}</p>
+    <form method="POST" action="/aiport/update_node{{node.id}}">
+        {% csrf_token %}
+	<div class="modal fade" id="modalNode{{node.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNodeLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Edit Node</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-floating mb-3">
+                            <p>{{node}}</p>
+                        </div>
+
+                        <div class="form-floating mb-3">
+			    {{node_form.x}}
+                            <label for="floatingInput">{{node_form.x.label}}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+			    {{node_form.y}}
+                            <label for="floatingInput">{{node_form.y.label}}</label>
+                        </div>
+
+                   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% endfor %}
 
 
 
