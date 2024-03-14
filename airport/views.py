@@ -1,26 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Node, Link
-from .forms import NodeForm
+from .forms import NodeForm, LinkForm
 
 # Create your views here.
 def geometryEdit(request):
-    pointList = []
-    lineList = []
-    linkList = []
-    nodeList = []
+    nodeListSerial = []
+    linkListSerial = []
     for n in Node.objects.all():
-        pointList.append([n.x,n.y])
-        nodeList.append(n)
+        nodeListSerial.append({'type':n.Type.labels[int(n.type)-1], 'x':n.x, 'y':n.y})
     for l in Link.objects.all():
-        lineList.append([l.node1.x, l.node1.y, l.node2.x, l.node2.y, l.width])
-        linkList.append(l)
+        linkListSerial.append({'type': l.type, 'node1name': l.node1.__str__(), 'node2name': l.node2.__str__(), 'node1x': l.node1.x, 'node1y': l.node1.y, 'node2x': l.node2.x, 'node2y': l.node2.y, 'width':l.width})
     node_form = NodeForm()
-    context = { 'pointList' : pointList,
-                'lineList' : lineList,
-                'linkList' : linkList,
-                'nodeList' : nodeList,
-                'node_form': node_form } 
+    link_form = LinkForm()
+    context = { 'nodeListSerial' : nodeListSerial,
+                'linkListSerial' : linkListSerial,
+                'linkList' : list(Link.objects.all()),
+                'nodeList' : list(Node.objects.all()),
+                'node_form': node_form,
+                'link_form': link_form } 
 
     return render(request, 'airport/drawing_component.html', context)
     #return HttpResponse('Hola mundo')

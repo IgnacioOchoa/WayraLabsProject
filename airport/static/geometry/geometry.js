@@ -16,8 +16,10 @@ let lineHighlihtColor = "rgb(252,61,3)";
 let backgroundFill = '#e6f5ea';
 let linkColor = '#999c9e';
 
-dataElement1 = document.currentScript.nextElementSibling;
-dataElement2 = dataElement1.nextElementSibling;
+//dataElement1 = document.currentScript.nextElementSibling;
+dataElement1 = document.getElementById("nodeData");
+dataElement2 = document.getElementById("linkData");
+//dataElement2 = dataElement1.nextElementSibling;
 const dataNodes = JSON.parse(dataElement1.textContent);
 const dataLinks = JSON.parse(dataElement2.textContent);
 
@@ -35,11 +37,11 @@ for (link of dataLinks) {
 let [visibleX, visibleY] = calculateBoundingRect();
 
 function addNode(node) {
-  nodes.push(new Node(node[0],node[1]));
+  nodes.push(new Node(node.x,node.y));
 }
 
 function addLink(link) {
-  links.push(new Link(link[0], link[1], link[2], link[3], link[4]));
+  links.push(new Link(link.node1x, link.node1y, link.node2x, link.node2y, link.width));
 }
 
 function calculateBoundingRect(){

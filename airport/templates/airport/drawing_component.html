@@ -5,8 +5,8 @@
 {% block content %}
 
 <script src="{% static 'geometry/geometry.js'%}" defer></script> 
-{{pointList | json_script}}
-{{lineList | json_script}}
+{{nodeListSerial | json_script:"nodeData"}}
+{{linkListSerial | json_script:"linkData"}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/geometry.css' %}"/>
 <h3>Welcome to the airport edition section</h3>
@@ -39,12 +39,12 @@ Add New Node
                     <td>{{ link }}</td>  
 		    <td>{{ link.description }}</td>  
                     <td>  
-                        <a type="button" class="btn btn-success btn-sm"><i class="fa fa-pencil-square-o"></i></a>
+                        <a type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-placement="top" title="Edit Link" data-bs-target="#modalLink" data-bs-linkId="{{link.id}}"><i class="fa fa-pencil-square-o"></i></a>
                         <a type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                     </td>  
                 </tr>  
                 {% endfor %}  
-            </tbody>  
+            </tbody> 
         </table>  
         </div>  
     </section>
@@ -53,6 +53,7 @@ Add New Node
             <thead class="thead-dark">  
                 <tr>  
                     <th>Node Name </th>  
+		    <th>Node number </th>
                     <th>X</th>
                     <th>Y</th>
                     <th>Actions</th>    
@@ -62,10 +63,11 @@ Add New Node
                 {% for node in nodeList %}  
                 <tr>  
                     <td>{{ node }}</td>  
+		    <td>{{ node.id}} </td>
 		    <td>{{ node.x }}</td>  
 		    <td>{{ node.y }}</td>  
                     <td>  
-		      <a type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-placement="top" title="Edit Node" data-bs-target="#modalNode{{node.id}}"><i class="fa fa-pencil-square-o"></i></a>
+		      <a type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-placement="top" title="Edit Node" data-bs-target="#modalNode" data-bs-nodeId="{{node.id}}"><i class="fa fa-pencil-square-o"></i></a>
                         <a type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                     </td>  
                 </tr>  
@@ -76,10 +78,9 @@ Add New Node
     </section>
 
     <!-- Modal to change nodes -->
-    {% for node in nodeList %}
-    <form method="POST" action="/aiport/update_node{{node.id}}">
+    <form method="POST" name="nodeEditForm">
         {% csrf_token %}
-	<div class="modal fade" id="modalNode{{node.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNodeLabel" aria-hidden="true">
+	<div class="modal fade" id="modalNode" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNodeLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -89,8 +90,9 @@ Add New Node
                     <div class="modal-body">
 
                         <div class="form-floating mb-3">
-                            <p>{{node}}</p>
+                            <p class="node-form-title"></p>
                         </div>
+
 
                         <div class="form-floating mb-3">
 			    {{node_form.x}}
@@ -111,8 +113,79 @@ Add New Node
             </div>
         </div>
     </form>
-    {% endfor %}
+
+    <!-- Modal to change links -->
+    <form method="POST" >
+        {% csrf_token %}
+	<div class="modal fade" id="modalLink" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalNodeLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Edit Link</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-floating mb-3">
+                            <p class="link-form-title">{{link}}</p>
+                        </div>
+
+                        <div class="form-floating mb-3">
+			    {{link_form.node1}}
+                            <label for="floatingInput">{{link_form.node1.label}}</label>
+                        </div>
+                        <div class="form-floating mb-3">
+			    {{link_form.node2}}
+                            <label for="floatingInput">{{link_form.node2.label}}</label>
+                        </div>
+			<div class="form-floating mb-3">
+			    {{link_form.width}}
+                            <label for="floatingInput">{{link_form.width.label}}</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </main>
 
+<script>
+    let nodeModal =document.getElementById('modalNode');
+    nodeModal.addEventListener('show.bs.modal', function(event){
+	let button = event.relatedTarget;
+	let nodeNumber  = button.getAttribute('data-bs-nodeId')
+	const nodeData = JSON.parse(document.getElementById("nodeData").textContent);
+        let formTitle = nodeModal.querySelector(".node-form-title");
+	formTitle.textContent = nodeData[nodeNumber-1].type.toString();
+	x_input = nodeModal.querySelector("input[name='x']");
+	y_input = nodeModal.querySelector("input[name='y']");
+	x_input.value = nodeData[nodeNumber-1]['x'];
+	y_input.value = nodeData[nodeNumber-1]['y'];
+	document.nodeEditForm.action = "/aiport/update_node_"+nodeNumber.toString();
+    });
+    let linkModal =document.getElementById('modalLink');
+    linkModal.addEventListener('show.bs.modal', function(event){
+	let button = event.relatedTarget;
+	let linkNumber  = button.getAttribute('data-bs-linkId')
+	const linkData = JSON.parse(document.getElementById("linkData").textContent);
+        let formTitle = linkModal.querySelector(".link-form-title");
+	//formTitle.textContent = linkData[linkNumber-1].type.toString();
+	node1_select = linkModal.querySelector("select[name='node1']");
+	node2_select= linkModal.querySelector("select[name='node2']");
+	//width_input = linkModal.querySelector("input[name='width']");
+	console.log("node1_select: ", node1_select);
+	console.log("node2_select: ", node2_select);
+	//console.log("width_input: ", width_input );
+	node1_select.value = linkData[linkNumber-1]['node1name'];
+	node2_select.value = linkData[linkNumber-1]['node2name'];
+	//width_input.value = linkData[linkNumber-1]['width'];
+	document.nodeEditForm.action = "/aiport/update_link_"+linkNumber.toString();
+    });
+
+</script>
 
 {% endblock content%}
