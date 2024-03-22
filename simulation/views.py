@@ -1,19 +1,15 @@
 from django.shortcuts import render
 from fleet.models import Fleet, AircraftQuantity
 from airport.models import Link, Node
+from simulation.models import Runway
 from .forms import SimulationConfigForm
 
 # Create your views here.
 def simulation(request):
+    runway_recreation()
     #Context
-    fleets = Fleet.objects.all()
-    links = Link.objects.all()
-    nodes = Node.objects.all()
     config_form = SimulationConfigForm()
     context={
-        'fleets': fleets,
-        'links': links,
-        'nodes': nodes,
         'config_form': config_form,
     }
     if request.method == "POST":
@@ -66,6 +62,21 @@ def simulation(request):
             return render(request, 'simulation/simulation.html', context)
     else:
         return render(request, 'simulation/simulation.html', context)
+
+# FUNCTION TO RECREATE RUNWAYS FROM NODES AND LINKS
+def runway_recreation():
+    links = Link.objects.all()
+    nodes = Node.objects.all()
+    runway1 = Runway()
+    runway1.runway_designator = "11"
+    runway1.length = 3000
+    runway1.save()
+    runway2 = Runway()
+    runway2.runway_designator = "29"
+    runway2.length = 3000
+    runway2.save()
+    runways = Runway.objects.all()
+    print(len(runways))
 
 def kt_to_ms(kt):
     return kt*0.514444

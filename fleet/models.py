@@ -1,5 +1,14 @@
 from django.db import models
 
+class TypeDesignators(models.Model):
+    manufacturer = models.CharField(max_length = 50)
+    model = models.CharField(max_length = 50)
+    type_designator = models.CharField(max_length = 10)
+    description = models.CharField(max_length = 50)
+    engine_type = models.CharField(max_length = 50)
+    engine_count = models.CharField(max_length = 1)
+    wtc = models.CharField(max_length = 1)
+
 class Aircraft(models.Model):
     name = models.CharField(max_length = 25)
     icao_id = models.CharField(max_length = 5)

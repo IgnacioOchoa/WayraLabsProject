@@ -3,6 +3,13 @@ from fleet.models import Aircraft
 from airport.models import Link, Node
 
 # Create your models here.
+
+class Runway(models.Model):
+    runway_designator = models.CharField(max_length=3)
+    length = models.FloatField()
+    def __str__(self):
+        return "RWY {}".format(self.runway_designator)
+
 class Results(models.Model):
     fleet = models.ForeignKey(Aircraft, on_delete=models.CASCADE)
     runway = models.ForeignKey(Link, on_delete=models.CASCADE)

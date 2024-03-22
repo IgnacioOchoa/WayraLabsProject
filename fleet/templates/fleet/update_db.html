@@ -1,0 +1,46 @@
+{% extends 'wlabs/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h3>VIEW TO SHOW DB UPDATE PROCESS</h3>
+
+<style>
+/* Style for the loading icon container */
+.loading-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style for the loading icon */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ccc;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation for the loading icon */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
+
+<main class="container">
+  <section class="card mt-4 card-body">
+    <div class="loading-icon">
+      <div class="spinner"></div>
+    </div>
+    <h3>LOADING...</h3>
+  </section>
+</main>
+
+<h3>ACTION NOT DEVELOPED YET</h3>
+
+{% endblock %}

@@ -108,6 +108,13 @@ def acft_details(request, fleet_acft_id):
     fleet_aircraft = AircraftQuantity.objects.get(id=fleet_acft_id)   
     return render(request, 'fleet/acft_details.html', {'element': fleet_aircraft})
 
+# View to update type designators -- NOT FUNCTIONAL
+def update_db(request):
+    context={
+    }
+    return render(request, 'fleet/update_db.html', context)
+
 """ RESTA IMPLEMENTAR:
         -- PIECHART FLEET
-        -- PIECHART ACFT"""   
+        -- PIECHART ACFT
+        -- DB UPDATE"""

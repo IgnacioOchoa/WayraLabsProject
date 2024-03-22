@@ -11,4 +11,5 @@ urlpatterns = [
         path('update/update/<int:fleet_acft_id>', views.update_acft, name='update_acft'),
         path('update/delete/<int:fleet_acft_id>/', views.destroy_acft, name='destroy_acft'),
         path('update/acft_details/<int:fleet_acft_id>/', views.acft_details, name='acft_details'),
+        path('update_db', views.update_db, name='update_db'),
 ]
