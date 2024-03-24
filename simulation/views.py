@@ -22,8 +22,8 @@ def simulation(request):
             fleet_aircrafts = AircraftQuantity.objects.filter(fleet = selected_fleet).all()
 
             selected_runway = config_form.cleaned_data['runway_selector']
-            print(selected_runway)
-
+        
+            #STILL HAVE TO BE ABLE TO SELECT RUNWAY
             #HARDCODED RUNWAY LENGTH... SHOULD BE GIVEN BY RUNWAY
             runway_length = 3000
             total_operations = 0
@@ -59,6 +59,8 @@ def simulation(request):
             context['arrivals_per_hour'] = capacity
             context['general_results'] = general_results
 
+            Runway.objects.all().delete()
+
             return render(request, 'simulation/simulation.html', context)
     else:
         return render(request, 'simulation/simulation.html', context)
@@ -66,17 +68,17 @@ def simulation(request):
 # FUNCTION TO RECREATE RUNWAYS FROM NODES AND LINKS
 def runway_recreation():
     links = Link.objects.all()
-    nodes = Node.objects.all()
-    runway1 = Runway()
-    runway1.runway_designator = "11"
-    runway1.length = 3000
-    runway1.save()
-    runway2 = Runway()
-    runway2.runway_designator = "29"
-    runway2.length = 3000
-    runway2.save()
-    runways = Runway.objects.all()
-    print(len(runways))
+    nodes = Node.objects.filter(type="2")
+    
+    for node in nodes:
+        rwy = Runway()
+        rwy.runway_designator = node.runway_designator
+        node1 = node
+        for node in nodes:
+            if node.runway_designator == str(int(node1.runway_designator) + 18) or node.runway_designator == str(int(node1.runway_designator) - 18):
+                node2 = node
+                rwy.length = segment_length(node1, node2)
+        rwy.save()
 
 def kt_to_ms(kt):
     return kt*0.514444

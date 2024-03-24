@@ -38,7 +38,4 @@ class Link(models.Model):
     )
 
     def __str__(self):
-        if self.node2.runway_designator < self.node1.runway_designator:
-            return "{} {}-{}".format(self.get_type_display(),self.node2.runway_designator,self.node1.runway_designator)
-        else:
-            return "{} {}-{}".format(self.get_type_display(),self.node1.runway_designator,self.node2.runway_designator)
+        return "{}, {} to {}".format(self.get_type_display(),self.node1,self.node2)
