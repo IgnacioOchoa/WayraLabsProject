@@ -11,7 +11,7 @@ class NodeForm(forms.ModelForm):
 
     class Meta:
         model = Node
-        fields = ['x','y']
+        fields = ['x','y','z']
 
 class LinkForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
