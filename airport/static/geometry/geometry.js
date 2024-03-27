@@ -129,10 +129,6 @@ Line.prototype.draw = function() {
 } 
 
 
-function mouseClick(event) {
-    console.log("mouseClick function"); 
-}
-
 function mouseCollisionWithLine(mouseX, mouseY, line) {
   //console.log("mouse X = " + mouseX, "  line.x1 = " + line.x1 + "  line.x2 = " + line.x2);
   //console.log("mouse Y = " + mouseY, "  line.y1 = " + line.y1 + "  line.y2 = " + line.y2);
@@ -152,17 +148,16 @@ function mouseCollisionWithLine(mouseX, mouseY, line) {
   else return false;
 }
 
-canvas.addEventListener("mousedown", mouseClick);
-canvas.addEventListener("mousemove", (event) => {
-  var x = event.clientX - rect.left;
-  var y = event.clientY - rect.top;
+//canvas.addEventListener("mousemove", (event) => {
+ //var x = event.clientX - rect.left;
+  //var y = event.clientY - rect.top;
   //if(mouseCollisionWithLine(x,y,lines[i])) {
   //lines[i].color = lineHighlihtColor;
   // }
   // else { lines[i].color = baseLineColor;}
   // }
   //}
-});
+//});
 
 function loop() {
   window.requestAnimationFrame(loop);
